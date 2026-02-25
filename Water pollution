@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    float pollutionLevel;
+
+    cout << "🌊 Water Pollution Monitoring System 🌊\n";
+    cout << "Enter pollution level (in ppm): ";
+    cin >> pollutionLevel;
+
+    cout << "\n--- Water Quality Report ---\n";
+
+    if (pollutionLevel <= 50) {
+        cout << "Water Quality: Safe for drinking.\n";
+    }
+    else if (pollutionLevel <= 100) {
+        cout << "Water Quality: Slightly polluted.\n";
+        cout << "Recommendation: Boil water before use.\n";
+    }
+    else if (pollutionLevel <= 200) {
+        cout << "Water Quality: Moderately polluted.\n";
+        cout << "Recommendation: Not safe for drinking.\n";
+    }
+    else {
+        cout << "Water Quality: Highly polluted!\n";
+        cout << "Danger: Unsafe for humans and aquatic life.\n";
+    }
+
+    // Environmental awareness message
+    cout << "\nSave Water 💧 Protect Nature 🌍\n";
+
+    return 0;
+}
