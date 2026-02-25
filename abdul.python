@@ -1,0 +1,64 @@
+import whisper
+import librosa
+import numpy as np
+import re
+
+# -----------------------------
+# 1. Load Whisper Model
+# -----------------------------
+model = whisper.load_model("base")
+
+# -----------------------------
+# 2. Transcribe Audio
+# -----------------------------
+audio_path = "speech_sample.wav"
+result = model.transcribe(audio_path)
+
+transcript = result["text"]
+segments = result["segments"]
+
+print("Transcript:")
+print(transcript)
+print("-" * 50)
+
+# -----------------------------
+# 3. Calculate Words Per Minute
+# -----------------------------
+duration = segments[-1]["end"]  # total audio duration
+word_count = len(transcript.split())
+
+wpm = (word_count / duration) * 60
+
+# -----------------------------
+# 4. Detect Pauses (longer than 0.7 seconds)
+# -----------------------------
+pause_count = 0
+for i in range(1, len(segments)):
+    gap = segments[i]["start"] - segments[i-1]["end"]
+    if gap > 0.7:
+        pause_count += 1
+
+# -----------------------------
+# 5. Detect Filler Words
+# -----------------------------
+filler_words = ["um", "uh", "like", "you know", "so"]
+filler_count = 0
+
+for filler in filler_words:
+    filler_count += len(re.findall(rf"\b{filler}\b", transcript.lower()))
+
+# -----------------------------
+# 6. Print Fluency Metrics
+# -----------------------------
+print(f"Duration: {duration:.2f} seconds")
+print(f"Word Count: {word_count}")
+print(f"Words Per Minute (WPM): {wpm:.2f}")
+print(f"Long Pauses (>0.7s): {pause_count}")
+print(f"Filler Words Used: {filler_count}")
+
+# -----------------------------
+# 7. Simple Fluency Score
+# -----------------------------
+fluency_score = max(0, 100 - (pause_count * 3) - (filler_count * 2))
+
+print(f"\nFluency Score: {fluency_score}/100")
