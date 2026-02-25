@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string teamA, teamB;
+    int scoreA = 0, scoreB = 0;
+    int choice;
+
+    cout << "🏐 Volleyball Match Score Tracker 🏐\n";
+    cout << "Enter Team A name: ";
+    cin >> teamA;
+    cout << "Enter Team B name: ";
+    cin >> teamB;
+
+    do {
+        cout << "\nCurrent Score:\n";
+        cout << teamA << ": " << scoreA << endl;
+        cout << teamB << ": " << scoreB << endl;
+
+        cout << "\nWho scored the point?\n";
+        cout << "1. " << teamA << endl;
+        cout << "2. " << teamB << endl;
+        cout << "3. End Match\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1:
+                scoreA++;
+                break;
+            case 2:
+                scoreB++;
+                break;
+            case 3:
+                cout << "\nMatch Ended!\n";
+                break;
+            default:
+                cout << "Invalid choice!\n";
+        }
+
+        // Check winning condition (25 points with 2 point difference)
+        if ((scoreA >= 25 || scoreB >= 25) && abs(scoreA - scoreB) >= 2) {
+            cout << "\nMatch Over!\n";
+            break;
+        }
+
+    } while(choice != 3);
+
+    cout << "\nFinal Score:\n";
+    cout << teamA << ": " << scoreA << endl;
+    cout << teamB << ": " << scoreB << endl;
+
+    if(scoreA > scoreB)
+        cout << "🏆 Winner: " << teamA << endl;
+    else if(scoreB > scoreA)
+        cout << "🏆 Winner: " << teamB << endl;
+    else
+        cout << "It's a Draw!\n";
+
+    return 0;
+}
